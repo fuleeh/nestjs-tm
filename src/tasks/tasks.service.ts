@@ -11,7 +11,9 @@ export class TasksService {
   constructor(private tasksRepository: TasksRepository) {}
 
   async getTaskById(id: string, user: User): Promise<Task> {
-    const found = await this.tasksRepository.findOneBy({ id, user });
+    const found = await this.tasksRepository.findOne({
+      where: { id, user: { id: user.id } },
+    });
     if (!found) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
     }
@@ -38,7 +40,10 @@ export class TasksService {
   }
 
   async deleteTask(id: string, user: User): Promise<void> {
-    const result = await this.tasksRepository.delete({ id, user });
+    const result = await this.tasksRepository.delete({
+      id,
+      user: { id: user.id },
+    });
     if (result.affected === 0) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
     }

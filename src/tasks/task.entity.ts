@@ -14,7 +14,7 @@ export class Task {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   status: TaskStatus;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
